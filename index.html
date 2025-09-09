@@ -1,197 +1,639 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elapsed RP Rulebook</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(ellipse at center, #0f172a 0%, #000000 70%);
-      color: #fff;
-      margin: 0;
-      overflow: hidden;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Elapsed Roleplay – Official RP Rulebook (2025 Final Edition)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#0f172a; --bg2:#000000;
+    --panel1:#1e293b; --panel2:#334155; --border:#475569;
+    --brand:#0ea5e9; --brand2:#06b6d4;
+    --good:#10b981; --fail:#ef4444; --muted:#94a3b8;
+  }
 
-    .book-container {
-      width: 100vw;
-      height: 100vh;
-      max-width: 1600px;
-      max-height: 100vh;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    color:#fff;
+    background: radial-gradient(ellipse at center, var(--bg1) 0%, var(--bg2) 70%);
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
 
-    .page {
-      position: absolute;
-      width: 90%;
-      height: 85%;
-      background: linear-gradient(135deg, #1e293b, #334155);
-      border: 2px solid #475569;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      padding: 2rem;
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+  /* Fullscreen stage */
+  .book-container{
+    width:100vw;height:100vh;
+    max-width:1800px;max-height:100vh;
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    padding:3.5vmin;
+  }
 
-    .page.active {
-      display: flex;
-      animation: fadeIn 0.5s ease;
-    }
+  /* Page card */
+  .page{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: linear-gradient(135deg, var(--panel1), var(--panel2));
+    border:2px solid var(--border);
+    border-radius:24px;
+    box-shadow: 0 25px 60px rgba(0,0,0,.55);
+    padding: min(3vmin,28px);
+    display:none;
+    gap:min(2.5vmin,24px);
+    flex-direction:column;
+    justify-content:space-between;
+    overflow:hidden; /* no internal scroll */
+  }
+  .page.active{display:flex; animation:pageIn .45s ease}
+  @keyframes pageIn{from{opacity:0;transform:scale(.975)}to{opacity:1;transform:scale(1)}}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
+  /* Top header stripe */
+  .top{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:1rem;
+  }
+  .title{
+    font-weight:800;
+    font-size: clamp(1.6rem, 3.2vmin, 2.4rem);
+    letter-spacing:.3px;
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .section{
+    font-weight:700;
+    font-size: clamp(1.15rem, 2.6vmin, 1.7rem);
+    color:#67e8f9;
+  }
 
-    .title {
-      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
+  /* Body text block */
+  .content{
+    flex:1;
+    display:flex; flex-direction:column; gap:min(1.8vmin,18px);
+    justify-content:center;
+  }
 
-    .subtitle {
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      font-weight: 600;
-      margin: 1rem 0 0.5rem;
-    }
+  p{margin:0; line-height:1.5; color:#e2e8f0; font-size:clamp(.95rem,1.8vmin,1.15rem)}
+  .muted{color:var(--muted)}
+  .bullet{padding-left:1.1em; position:relative}
+  .bullet::before{content:"• "; position:absolute; left:0; color:#a6b4c7}
 
-    p {
-      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-      line-height: 1.6;
-    }
+  .chip{
+    display:inline-block;
+    padding:.25rem .6rem; border-radius:999px;
+    font-weight:700; font-size:clamp(.8rem,1.5vmin,.95rem);
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    color:white; box-shadow:0 6px 18px rgba(14,165,233,.25);
+  }
 
-    .example {
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      margin: 0.5rem 0;
-      font-size: clamp(0.85rem, 1vw, 1rem);
-    }
-    .good {
-      background: rgba(16,185,129,0.2);
-      border-left: 4px solid #10b981;
-    }
-    .fail {
-      background: rgba(239,68,68,0.2);
-      border-left: 4px solid #ef4444;
-    }
+  .box{
+    border-radius:14px; padding:min(1.6vmin,16px) min(1.8vmin,18px);
+    border:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+  }
+  .good{border-left:5px solid var(--good); background:linear-gradient(180deg, rgba(16,185,129,.18), rgba(16,185,129,.10))}
+  .fail{border-left:5px solid var(--fail); background:linear-gradient(180deg, rgba(239,68,68,.18), rgba(239,68,68,.10))}
+  .label{font-weight:700; margin-bottom:.35rem; font-size:clamp(.9rem,1.7vmin,1.05rem)}
+  .spacer{height:min(1.6vmin,16px)}
 
-    .controls {
-      position: absolute;
-      bottom: 2rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      width: 100%;
-    }
+  /* Controls & indicator */
+  .controls{
+    position:absolute; bottom:2.5vmin; left:50%; transform:translateX(-50%);
+    display:flex; gap:1rem; z-index:20;
+  }
+  .btn{
+    padding:.85rem 1.35rem; border:none; border-radius:14px; color:#fff; font-weight:700;
+    background:linear-gradient(135deg, var(--brand), var(--brand2));
+    box-shadow:0 14px 32px rgba(14,165,233,.35);
+    cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+    font-size:clamp(.95rem,1.8vmin,1.05rem);
+  }
+  .btn:disabled{opacity:.45; cursor:not-allowed; box-shadow:none}
+  .btn:hover:not(:disabled){transform:translateY(-2px)}
+  .indicator{
+    position:absolute; top:2.2vmin; right:2.2vmin; z-index:20;
+    padding:.6rem 1rem; border-radius:999px; border:1px solid var(--border);
+    background:rgba(30,41,59,.9);
+    font-weight:700; font-size:clamp(.85rem,1.6vmin,1rem);
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+  }
+  .indicator b{color:var(--brand)}
 
-    .control-btn {
-      padding: 0.75rem 1.5rem;
-      background: #1d4ed8;
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .control-btn:hover {
-      background: #2563eb;
-      box-shadow: 0 0 12px #3b82f6;
-    }
-
-    .page-indicator {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      padding: 0.5rem 1rem;
-      border-radius: 9999px;
-      background: rgba(30,41,59,0.9);
-      border: 1px solid #475569;
-      font-size: clamp(0.8rem, 1vw, 1rem);
-    }
-  </style>
+  /* Click zones for easy nav */
+  .hit-left,.hit-right{
+    position:absolute; top:0; bottom:0; width:50%; z-index:5;
+  }
+  .hit-left{left:0} .hit-right{right:0}
+</style>
 </head>
 <body>
-  <div class="book-container">
-    
-    <!-- Page 1 -->
-    <div class="page active">
-      <div>
-        <div class="title">Elapsed Roleplay – Official RP Rulebook<br>(2025 Final Edition)</div>
-        <div class="subtitle">Introduction</div>
-        <p>
-          Welcome to Elapsed Roleplay, a server built for immersive, realistic, and fair roleplay. 
-          This rulebook defines how players — including civilians, criminals, gangs, and law enforcement — 
-          interact, ensuring everyone has a fun, structured, and engaging experience. 
-        </p>
-        <p><strong>This guide is mandatory reading for all players. Ignorance of the rules does not exempt you from consequences.</strong></p>
+  <div class="book-container" id="stage">
+    <!-- Invisible click zones -->
+    <div class="hit-left"  onclick="prevPage()"></div>
+    <div class="hit-right" onclick="nextPage()"></div>
+
+    <!-- =================== PAGES =================== -->
+
+    <!-- 1: Cover / Intro -->
+    <section class="page active">
+      <div class="top">
+        <div class="title">Elapsed Roleplay – Official RP Rulebook (2025 Final Edition)</div>
+        <span class="chip">Welcome</span>
       </div>
-    </div>
-
-    <!-- Page 2 -->
-    <div class="page">
-      <div>
-        <div class="subtitle">1.1 Respect & Conduct</div>
-        <p>Treat all players with respect. No harassment, bullying, or discrimination. Keep IC and OOC separate.</p>
-        <div class="example good">Good RP: You are robbed by another player. You comply IC and plan retaliation later.</div>
-        <div class="example fail">Fail RP: You start insulting the robbers in OOC chat.</div>
-        <p>Do not spam chat, voice, or text commands to disrupt RP.</p>
+      <div class="content">
+        <p><strong>Introduction</strong></p>
+        <p>Welcome to Elapsed Roleplay, a server built for immersive, realistic, and fair roleplay. This rulebook defines how players — including civilians, criminals, gangs, and law enforcement — interact, ensuring everyone has a fun, structured, and engaging experience. It also provides clear examples and explanations for each rule.</p>
+        <div class="box fail">
+          <div class="label">⚠ Mandatory</div>
+          <p>This guide is mandatory reading for all players. Ignorance of the rules does not exempt you from consequences.</p>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Page 3 -->
-    <div class="page">
-      <div>
-        <div class="subtitle">1.2 Cheating & Exploits</div>
-        <p>No cheats, hacks, macros, or third-party tools. Exploiting bugs = bans and wipes.</p>
-        <div class="example good">Good RP: You discover a bug that duplicates money and report it.</div>
-        <div class="example fail">Fail RP: You exploit a bug to duplicate money repeatedly.</div>
+    <!-- 2: 1. General Rules / 1.1 Respect & Conduct (part 1) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">1. General Rules</div>
+        <span class="chip">1.1 Respect & Conduct</span>
       </div>
-    </div>
+      <div class="content">
+        <p class="bullet">Treat all players with respect at all times. No harassment, bullying, or discrimination.</p>
+        <p class="bullet">Keep In-Character (IC) and Out-of-Character (OOC) separate.</p>
+        <div class="box good">
+          <div class="label">✅ Example of Good RP</div>
+          <p>You are robbed by another player. You comply IC and plan retaliation later through proper RP.</p>
+        </div>
+      </div>
+    </section>
 
-    <!-- Add more pages here with your full text -->
+    <!-- 3: 1.1 Respect & Conduct (part 2) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">1. General Rules</div>
+        <span class="chip">1.1 Respect & Conduct</span>
+      </div>
+      <div class="content">
+        <div class="box fail">
+          <div class="label">❌ Example of Fail RP</div>
+          <p>You start insulting the robbers in OOC chat.</p>
+        </div>
+        <p class="bullet">Do not spam chat, voice, or text commands to disrupt RP.</p>
+      </div>
+    </section>
 
-    <!-- Controls -->
+    <!-- 4: 1.2 Cheating & Exploits (part 1) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">1.2 Cheating & Exploits</div>
+        <span class="chip">Zero Tolerance</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Any use of cheats, hacks, macros, or third-party tools is strictly prohibited.</p>
+        <p class="bullet">Exploiting bugs for gain (money, weapons, items) will result in bans and wipe of affected accounts.</p>
+      </div>
+    </section>
+
+    <!-- 5: 1.2 Cheating & Exploits (part 2) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">1.2 Cheating & Exploits</div>
+        <span class="chip">Examples</span>
+      </div>
+      <div class="content">
+        <div class="box good">
+          <div class="label">✅ Good RP Example</div>
+          <p>You discover a bug that duplicates money and report it to admins.</p>
+        </div>
+        <div class="box fail">
+          <div class="label">❌ Fail RP Example</div>
+          <p>You exploit a bug to duplicate money multiple times.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6: 1.3 Admin & Staff Compliance -->
+    <section class="page">
+      <div class="top">
+        <div class="section">1.3 Admin & Staff Compliance</div>
+        <span class="chip">Follow Directions</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Follow instructions from staff immediately during RP.</p>
+        <p class="bullet">Disputes or appeals must go through official ticket systems; do not argue IC or OOC during active situations.</p>
+      </div>
+    </section>
+
+    <!-- 7: 2. Core RP Principles / 2.1 VoL (part 1) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">2. Core RP Principles</div>
+        <span class="chip">2.1 Value of Life (VoL)</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Every life matters. Do not act recklessly when threatened or outnumbered.</p>
+        <div class="box good">
+          <div class="label">✅ Good RP Example</div>
+          <p>You comply when three armed robbers hold you at gunpoint.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8: 2.1 VoL (part 2) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">2.1 Value of Life (VoL)</div>
+        <span class="chip">Failure Example</span>
+      </div>
+      <div class="content">
+        <div class="box fail">
+          <div class="label">❌ Fail RP Example</div>
+          <p>You pull a gun on five armed cops during a traffic stop.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9: 2.2 Metagaming -->
+    <section class="page">
+      <div class="top">
+        <div class="section">2.2 Metagaming</div>
+        <span class="chip">Keep IC/OOC Separate</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Do not use OOC information for IC advantage.</p>
+        <div class="box fail">
+          <div class="label">❌ Fail RP Example</div>
+          <p>Watching a live stream to track a player’s location in IC.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10: 2.3 Powergaming -->
+    <section class="page">
+      <div class="top">
+        <div class="section">2.3 Powergaming</div>
+        <span class="chip">Fair Chances</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Do not force actions or outcomes on other players without giving them a chance to respond.</p>
+        <div class="box fail">
+          <div class="label">❌ Fail RP Example</div>
+          <p>“I instantly knock you out” without allowing reaction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11: 2.4 NLR (part 1) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">2.4 New Life Rule (NLR)</div>
+        <span class="chip">After Death</span>
+      </div>
+      <div class="content">
+        <p class="bullet">After death, forget all events leading to that death.</p>
+        <p class="bullet">Wait 15 minutes before returning to that location.</p>
+      </div>
+    </section>
+
+    <!-- 12: 2.4 NLR (part 2) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">2.4 New Life Rule (NLR)</div>
+        <span class="chip">Failure Example</span>
+      </div>
+      <div class="content">
+        <div class="box fail">
+          <div class="label">❌ Fail RP Example</div>
+          <p>Returning immediately to exact revenge after respawn.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13: 3. Robbery Rules / 3.1 Cooldowns -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3. Robbery Rules</div>
+        <span class="chip">3.1 Cooldowns</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Minor Robberies</strong> (House, Store, ATM, Fleeca Bank): <strong>15 minutes</strong></p>
+        <p class="bullet"><strong>Major Robberies</strong> (Jewelry, Paleto, Pacific Bank): <strong>30 minutes</strong></p>
+      </div>
+    </section>
+
+    <!-- 14: 3.2 Crew & 5-Man Rule -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.2 Crew & 5-Man Rule</div>
+        <span class="chip">Limits</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Most robberies: 3 robbers + 2 backup</p>
+        <p class="bullet">House robbery: 2 robbers + 1 backup</p>
+        <p class="bullet">Pacific Bank: 4 robbers + 2 backup (6 total)</p>
+        <p class="bullet">Police limit: Maximum 8 officers per robbery</p>
+      </div>
+    </section>
+
+    <!-- 15: 3.3 House Robbery -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.3 Robbery Types and Detailed Examples</div>
+        <span class="chip">House Robbery</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Crew:</strong> 2 + 1 backup</p>
+        <p class="bullet"><strong>Hostages:</strong> Not allowed</p>
+        <p class="bullet"><strong>Cooldown:</strong> 15 min</p>
+        <p class="bullet"><strong>Police response:</strong> Based on alert</p>
+        <p><strong>Scenario:</strong> Two robbers quietly break into a house. One backup waits in a vehicle outside. They steal valuables and leave before police arrive.</p>
+        <div class="box good"><div class="label">✅ Good RP</div><p>Breaking in stealthily, interacting with NPCs realistically, leaving calmly.</p></div>
+        <div class="box fail"><div class="label">❌ Fail RP</div><p>Using explosives inside a house with no IC reason.</p></div>
+      </div>
+    </section>
+
+    <!-- 16: Store Robbery -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.3 Robbery Types and Detailed Examples</div>
+        <span class="chip">Store Robbery</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Crew:</strong> 3 + 2 backup</p>
+        <p class="bullet"><strong>Hostages:</strong> 1</p>
+        <p class="bullet"><strong>Police:</strong> Min 2</p>
+        <p><strong>Scenario:</strong> Robbers hold cashier hostage, demand money. Backup waits in a car outside.</p>
+        <div class="box good"><div class="label">✅ Good RP</div><p>Communicate with hostage, negotiate with police, leave after demands met.</p></div>
+        <div class="box fail"><div class="label">❌ Fail RP</div><p>Shoot hostage randomly or ignore police arrival.</p></div>
+      </div>
+    </section>
+
+    <!-- 17: ATM Robbery -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.3 Robbery Types and Detailed Examples</div>
+        <span class="chip">ATM Robbery</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Crew:</strong> 3 + 2 backup</p>
+        <p class="bullet"><strong>Hostages:</strong> 1</p>
+        <p class="bullet"><strong>Police:</strong> Min 2</p>
+        <p><strong>Scenario:</strong> Robbers drill ATM, backup scouts for police. Upon police arrival, negotiation occurs.</p>
+        <div class="box fail"><div class="label">❌ Fail RP</div><p>Repeating multiple ATM robberies without cooldown.</p></div>
+      </div>
+    </section>
+
+    <!-- 18: Fleeca Bank -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.3 Robbery Types and Detailed Examples</div>
+        <span class="chip">Fleeca Bank</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Crew:</strong> 3 + 2 backup</p>
+        <p class="bullet"><strong>Hostages:</strong> 1</p>
+        <p class="bullet"><strong>Police:</strong> Min 3 / Max 8</p>
+        <p><strong>Scenario:</strong> Three robbers breach vault; backup waits outside for getaway. Police negotiate.</p>
+        <div class="box good"><div class="label">✅ Good RP</div><p>Follow IC negotiation, release hostage safely.</p></div>
+        <div class="box fail"><div class="label">❌ Fail RP</div><p>Using more than allowed crew or ignoring negotiation.</p></div>
+      </div>
+    </section>
+
+    <!-- 19: Jewelry Store -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.3 Robbery Types and Detailed Examples</div>
+        <span class="chip">Jewelry Store</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Crew:</strong> 3 + 2 backup</p>
+        <p class="bullet"><strong>Hostages:</strong> 1</p>
+        <p class="bullet"><strong>Police:</strong> Min 4</p>
+        <p><strong>Scenario:</strong> Smash display cases, hold one hostage, interact with arriving police for negotiation.</p>
+      </div>
+    </section>
+
+    <!-- 20: Paleto Bank -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.3 Robbery Types and Detailed Examples</div>
+        <span class="chip">Paleto Bank</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Crew:</strong> 3 + 2 backup</p>
+        <p class="bullet"><strong>Hostages:</strong> 1</p>
+        <p class="bullet"><strong>Police:</strong> Min 4</p>
+        <p><strong>Scenario:</strong> Robbery with coordinated backup, realistic escape, hostage management.</p>
+      </div>
+    </section>
+
+    <!-- 21: Pacific Bank -->
+    <section class="page">
+      <div class="top">
+        <div class="section">3.3 Robbery Types and Detailed Examples</div>
+        <span class="chip">Pacific Bank</span>
+      </div>
+      <div class="content">
+        <p class="bullet"><strong>Crew:</strong> 4 + 2 backup</p>
+        <p class="bullet"><strong>Hostages:</strong> 2</p>
+        <p class="bullet"><strong>Police:</strong> Max 8</p>
+        <p><strong>Scenario:</strong> Larger heist with multi-hostage management, timed escape, police coordination.</p>
+      </div>
+    </section>
+
+    <!-- 22: 4. Hostage Rules -->
+    <section class="page">
+      <div class="top">
+        <div class="section">4. Hostage Rules</div>
+        <span class="chip">Hostage Handling</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Must be real players</p>
+        <p class="bullet">Can only be harmed if police refuse negotiation or hostage attacks</p>
+        <div class="box fail"><div class="label">❌ Fail RP Example</div><p>Killing hostages after demands are met</p></div>
+      </div>
+    </section>
+
+    <!-- 23: 5. Backup Rules -->
+    <section class="page">
+      <div class="top">
+        <div class="section">5. Backup Rules</div>
+        <span class="chip">Support Limits</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Backup cannot start action before main crew initiates</p>
+        <p class="bullet">Must remain outside until called in</p>
+      </div>
+    </section>
+
+    <!-- 24: 6. Code Raid Rules -->
+    <section class="page">
+      <div class="top">
+        <div class="section">6. Code Raid Rules</div>
+        <span class="chip">Authorization</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Police max: 8</p>
+        <p class="bullet">Gang defenders max: 5 (unless admin approved)</p>
+        <p class="bullet">Cooldown: 1 hour per location</p>
+        <p class="bullet">Must be authorized by commanding officer</p>
+        <p><strong>Scenario:</strong> Police raid gang stash house, use tactical approach, negotiation, hostages if required.</p>
+      </div>
+    </section>
+
+    <!-- 25: 7. Police Behaviour Rules (part 1) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">7. Police Behaviour Rules</div>
+        <span class="chip">Conduct</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Act professional, negotiate first, avoid unnecessary aggression</p>
+        <p class="bullet">Cannot camp or abuse OOC knowledge</p>
+        <p class="bullet">Announce charges and read rights</p>
+      </div>
+    </section>
+
+    <!-- 26: 7. Police Behaviour Rules (part 2) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">7. Police Behaviour Rules</div>
+        <span class="chip">Examples</span>
+      </div>
+      <div class="content">
+        <div class="box good"><div class="label">✅ Good RP</div><p>Blocking roads, negotiation</p></div>
+        <div class="box fail"><div class="label">❌ Fail RP</div><p>Shooting hostages immediately</p></div>
+      </div>
+    </section>
+
+    <!-- 27: 8. Gang & Turf Rules -->
+    <section class="page">
+      <div class="top">
+        <div class="section">8. Gang & Turf Rules</div>
+        <span class="chip">Operations</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Max 5 active members per operation</p>
+        <p class="bullet">Turf wars require escalation and staff notification</p>
+      </div>
+    </section>
+
+    <!-- 28: 9. Vehicle & Safe Zone Rules -->
+    <section class="page">
+      <div class="top">
+        <div class="section">9. Vehicle & Safe Zone Rules</div>
+        <span class="chip">Driving & Safety</span>
+      </div>
+      <div class="content">
+        <p class="bullet">No VDM</p>
+        <p class="bullet">Drive realistically</p>
+        <p class="bullet">Hospitals, PD, Courts are safe zones</p>
+      </div>
+    </section>
+
+    <!-- 29: 10. Economy & Loot Guidelines -->
+    <section class="page">
+      <div class="top">
+        <div class="section">10. Economy & Loot Guidelines</div>
+        <span class="chip">Fair Play</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Loot fairly based on RP scenario</p>
+        <p class="bullet">No duplication or exploiting economy</p>
+      </div>
+    </section>
+
+    <!-- 30: 11. OOC Rules & Punishments (part 1) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">11. OOC Rules & Punishments</div>
+        <span class="chip">OOC Conduct</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Use /ooc for support/questions</p>
+        <p class="bullet">No insults or spam</p>
+      </div>
+    </section>
+
+    <!-- 31: 11. OOC Rules & Punishments (part 2) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">11. OOC Rules & Punishments</div>
+        <span class="chip">Penalty Ladder</span>
+      </div>
+      <div class="content">
+        <p>Punishments: <strong>Warning → Fine/Jail → Temporary/Permanent Ban</strong></p>
+      </div>
+    </section>
+
+    <!-- 32: 12. Example Scenarios and Case Studies (part 1) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">12. Example Scenarios and Case Studies</div>
+        <span class="chip">Robberies</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Step-by-step robbery, police response, negotiation, escape</p>
+        <p class="bullet">Hostage management in Fleeca, Pacific Bank</p>
+      </div>
+    </section>
+
+    <!-- 33: 12. Example Scenarios and Case Studies (part 2) -->
+    <section class="page">
+      <div class="top">
+        <div class="section">12. Example Scenarios and Case Studies</div>
+        <span class="chip">Raids & Learning</span>
+      </div>
+      <div class="content">
+        <p class="bullet">Gang vs Police Code Raid scenario</p>
+        <p class="bullet">Fail RP examples for learning</p>
+      </div>
+    </section>
+
+    <!-- =================== /PAGES =================== -->
+
+    <!-- Controls & Indicator -->
     <div class="controls">
-      <button class="control-btn" onclick="prevPage()">⬅ Previous</button>
-      <button class="control-btn" onclick="nextPage()">Next ➡</button>
+      <button class="btn" id="prevBtn" onclick="prevPage()">← Previous</button>
+      <button class="btn" id="nextBtn" onclick="nextPage()">Next →</button>
     </div>
-    <div class="page-indicator" id="page-indicator">Page 1 of 3</div>
+    <div class="indicator" id="indicator">Page <b>1</b> of <b>33</b></div>
   </div>
 
-  <script>
-    let currentPage = 0;
-    const pages = document.querySelectorAll('.page');
-    const indicator = document.getElementById('page-indicator');
+<script>
+  let current = 0;
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const indicator = document.getElementById('indicator');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
 
-    function updatePage() {
-      pages.forEach((p,i) => p.classList.toggle('active', i===currentPage));
-      indicator.textContent = `Page ${currentPage+1} of ${pages.length}`;
-    }
+  function render(){
+    pages.forEach((p,i)=>p.classList.toggle('active', i===current));
+    indicator.innerHTML = `Page <b>${current+1}</b> of <b>${pages.length}</b>`;
+    prevBtn.disabled = current===0;
+    nextBtn.disabled = current===pages.length-1;
+  }
 
-    function nextPage() {
-      if (currentPage < pages.length - 1) {
-        currentPage++;
-        updatePage();
-      }
-    }
-    function prevPage() {
-      if (currentPage > 0) {
-        currentPage--;
-        updatePage();
-      }
-    }
-  </script>
+  function nextPage(){ if(current < pages.length-1){ current++; render(); } }
+  function prevPage(){ if(current > 0){ current--; render(); } }
+
+  // Keyboard navigation
+  addEventListener('keydown', e=>{
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) nextPage();
+    if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)) prevPage();
+  });
+
+  // Prevent text selection while clicking to navigate
+  document.getElementById('stage').addEventListener('mousedown', e=>{
+    if(e.target.classList.contains('hit-left') || e.target.classList.contains('hit-right')) e.preventDefault();
+  });
+
+  // Initial render
+  render();
+</script>
 </body>
 </html>

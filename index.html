@@ -1,85 +1,197 @@
-body {
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(ellipse at center, #0f172a 0%, #000000 70%);
-    color: #ffffff;
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elapsed RP Rulebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(ellipse at center, #0f172a 0%, #000000 70%);
+      color: #fff;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-/* Fullscreen responsive book */
-.book-container {
-    perspective: 2000px;
-    width: 100vw;
-    height: 100vh;
-    max-width: 1600px;  /* Optional: keeps nice proportions */
-    max-height: 100vh;
-    aspect-ratio: 16 / 9; /* widescreen feel */
-    position: relative;
-}
+    .book-container {
+      width: 100vw;
+      height: 100vh;
+      max-width: 1600px;
+      max-height: 100vh;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.book {
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.7s ease-out;
-    cursor: pointer;
-}
+    .page {
+      position: absolute;
+      width: 90%;
+      height: 85%;
+      background: linear-gradient(135deg, #1e293b, #334155);
+      border: 2px solid #475569;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      padding: 2rem;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-/* Page layout */
-.page {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(135deg, #1e293b, #334155);
-    border: 2px solid #475569;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    backface-visibility: hidden;
-    transition: transform 0.7s ease-out;
-    cursor: pointer;
+    .page.active {
+      display: flex;
+      animation: fadeIn 0.5s ease;
+    }
 
-    display: flex;           /* ✅ Centers content */
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 2rem;           /* No scrollbars */
-    overflow: hidden;        /* No scroll inside */
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
 
-/* Responsive text sizing */
-.section-title {
-    font-size: clamp(1.25rem, 2vw, 1.875rem);
-}
-.subsection-title {
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-}
-p {
-    font-size: clamp(0.85rem, 1vw, 1.125rem);
-    line-height: 1.5;
-}
+    .title {
+      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
 
-/* Controls pinned */
-.controls {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 1rem;
-    z-index: 50;
-}
+    .subtitle {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 600;
+      margin: 1rem 0 0.5rem;
+    }
 
-/* Page indicator pinned */
-.page-indicator {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    font-size: clamp(0.9rem, 1.2vw, 1.25rem);
-    padding: 0.75rem 1rem;
-    border-radius: 9999px;
-    background: rgba(30, 41, 59, 0.9);
-    border: 1px solid #475569;
-}
+    p {
+      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      line-height: 1.6;
+    }
+
+    .example {
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      margin: 0.5rem 0;
+      font-size: clamp(0.85rem, 1vw, 1rem);
+    }
+    .good {
+      background: rgba(16,185,129,0.2);
+      border-left: 4px solid #10b981;
+    }
+    .fail {
+      background: rgba(239,68,68,0.2);
+      border-left: 4px solid #ef4444;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .control-btn {
+      padding: 0.75rem 1.5rem;
+      background: #1d4ed8;
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .control-btn:hover {
+      background: #2563eb;
+      box-shadow: 0 0 12px #3b82f6;
+    }
+
+    .page-indicator {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      background: rgba(30,41,59,0.9);
+      border: 1px solid #475569;
+      font-size: clamp(0.8rem, 1vw, 1rem);
+    }
+  </style>
+</head>
+<body>
+  <div class="book-container">
+    
+    <!-- Page 1 -->
+    <div class="page active">
+      <div>
+        <div class="title">Elapsed Roleplay – Official RP Rulebook<br>(2025 Final Edition)</div>
+        <div class="subtitle">Introduction</div>
+        <p>
+          Welcome to Elapsed Roleplay, a server built for immersive, realistic, and fair roleplay. 
+          This rulebook defines how players — including civilians, criminals, gangs, and law enforcement — 
+          interact, ensuring everyone has a fun, structured, and engaging experience. 
+        </p>
+        <p><strong>This guide is mandatory reading for all players. Ignorance of the rules does not exempt you from consequences.</strong></p>
+      </div>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page">
+      <div>
+        <div class="subtitle">1.1 Respect & Conduct</div>
+        <p>Treat all players with respect. No harassment, bullying, or discrimination. Keep IC and OOC separate.</p>
+        <div class="example good">Good RP: You are robbed by another player. You comply IC and plan retaliation later.</div>
+        <div class="example fail">Fail RP: You start insulting the robbers in OOC chat.</div>
+        <p>Do not spam chat, voice, or text commands to disrupt RP.</p>
+      </div>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page">
+      <div>
+        <div class="subtitle">1.2 Cheating & Exploits</div>
+        <p>No cheats, hacks, macros, or third-party tools. Exploiting bugs = bans and wipes.</p>
+        <div class="example good">Good RP: You discover a bug that duplicates money and report it.</div>
+        <div class="example fail">Fail RP: You exploit a bug to duplicate money repeatedly.</div>
+      </div>
+    </div>
+
+    <!-- Add more pages here with your full text -->
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="control-btn" onclick="prevPage()">⬅ Previous</button>
+      <button class="control-btn" onclick="nextPage()">Next ➡</button>
+    </div>
+    <div class="page-indicator" id="page-indicator">Page 1 of 3</div>
+  </div>
+
+  <script>
+    let currentPage = 0;
+    const pages = document.querySelectorAll('.page');
+    const indicator = document.getElementById('page-indicator');
+
+    function updatePage() {
+      pages.forEach((p,i) => p.classList.toggle('active', i===currentPage));
+      indicator.textContent = `Page ${currentPage+1} of ${pages.length}`;
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        updatePage();
+      }
+    }
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        updatePage();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,65 +1,85 @@
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: radial-gradient(ellipse at center, #0f172a 0%, #000000 70%);
-        color: #ffffff;
-        overflow: hidden;
-        height: 100vh;
-        width: 100vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(ellipse at center, #0f172a 0%, #000000 70%);
+    color: #ffffff;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
 
-    /* Fullscreen responsive book container */
-    .book-container {
-        perspective: 2000px;
-        width: 100%;
-        height: 100%;
-        max-width: 1600px; /* keeps it from being too stretched on big monitors */
-        max-height: 95vh;
-        aspect-ratio: 3 / 2; /* keeps book shape proportional */
-        position: relative;
-    }
+/* Fullscreen responsive book */
+.book-container {
+    perspective: 2000px;
+    width: 100vw;
+    height: 100vh;
+    max-width: 1600px;  /* Optional: keeps nice proportions */
+    max-height: 100vh;
+    aspect-ratio: 16 / 9; /* widescreen feel */
+    position: relative;
+}
 
-    .book {
-        width: 100%;
-        height: 100%;
-        transform-style: preserve-3d;
-        transition: transform 0.7s ease-out;
-        cursor: pointer;
-    }
+.book {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s ease-out;
+    cursor: pointer;
+}
 
-    .page {
-        position: absolute;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(135deg, #1e293b, #334155);
-        border: 2px solid #475569;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        backface-visibility: hidden;
-        transition: transform 0.7s ease-out;
-        overflow: hidden;
-        cursor: pointer;
-    }
+/* Page layout */
+.page {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    border: 2px solid #475569;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    backface-visibility: hidden;
+    transition: transform 0.7s ease-out;
+    cursor: pointer;
 
-    .page-content {
-        padding: 2.5rem;
-        height: 100%;
-        overflow-y: auto;
-    }
+    display: flex;           /* ✅ Centers content */
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;           /* No scrollbars */
+    overflow: hidden;        /* No scroll inside */
+}
 
-    /* Controls responsive */
-    .controls {
-        position: fixed;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        z-index: 50;
-    }
+/* Responsive text sizing */
+.section-title {
+    font-size: clamp(1.25rem, 2vw, 1.875rem);
+}
+.subsection-title {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+}
+p {
+    font-size: clamp(0.85rem, 1vw, 1.125rem);
+    line-height: 1.5;
+}
 
-    .control-btn {
-        padding: 0.75rem 1.5rem;
+/* Controls pinned */
+.controls {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 50;
+}
+
+/* Page indicator pinned */
+.page-indicator {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1.25rem);
+    padding: 0.75rem 1rem;
+    border-radius: 9999px;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid #475569;
+}
